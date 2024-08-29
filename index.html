@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--Yahir Adrian Sarabia Villarreal-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Landing page con Bootstrap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        header {
+            background-image: url('https://picsum.photos/1200/400');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: white;
+            padding: 60px 0;
+        }
+
+        .card-section {
+            padding: 40px 0;
+        }
+
+        .table-section {
+            padding: 20px 0;
+        }
+
+        .section-footer {
+            color: white;
+            padding: 10px 0;
+            background-color: black;
+            text-align: center;
+        }
+
+        #output {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            /* Mantiene el formato de los saltos de línea */
+            height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Encabezado con texto y una imagen de fondo. -->
+    <header>
+        <h1>Bienvenido a Mi Sitio Web</h1>
+    </header>
+
+    <!-- Sección con al menos dos tarjetas (cards). -->
+    <section class="card-section">
+        <div class="container">
+            <div class="row row-cols-md-1 row-cols-md-2 g-2">
+                <div class="col">
+                    <div class="card">
+                        <img src="https://picsum.photos/500/300" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Título de la Tarjeta 1</h5>
+                            <p class="card-text">Este es un texto descriptivo para la tarjeta 1. Puedes agregar
+                                cualquier contenido que desees aquí.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <img src="https://picsum.photos/500/300" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Ejecución de Simulación</h5>
+                            <div id="output" class="card-text"></div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success" onclick="main()">Iniciar
+                                    Simulación</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Sección con una tabla con tres columnas y dos renglones. -->
+    <section class="table-section">
+        <div class="container">
+            <table class="table table-success table-striped">
+                <tr>
+                    <th>Columna 1</th>
+                    <th>Columna 2</th>
+                    <th>Columna 3</th>
+                </tr>
+                <tr>
+                    <td>Valor 1</td>
+                    <td>Valor 2</td>
+                    <td>Valor 3</td>
+                </tr>
+                <tr>
+                    <td>Valor 4</td>
+                    <td>Valor 5</td>
+                    <td>Valor 6</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer class="section-footer">
+        <div class="container">
+            <p>&copy; 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script lang="javascript">
+        // Definir los procesos con las líneas de código especificadas
+        const proceso1 = {
+            num: 1,
+            codigo: ["a=1+2", "console.log('1+2')", "console.log(a)"],
+            indice: 0
+        };
+
+        const proceso2 = {
+            num: 2,
+            codigo: ["b=3+4", "console.log('3+4')"],
+            indice: 0
+        };
+
+        const proceso3 = {
+            num: 3,
+            codigo: ["c=5+6", "console.log('5+6')", "console.log(c)"],
+            indice: 0
+        };
+
+        // Función para elegir la línea de código a ejecutar en el turno actual
+        function elegirLinea(proceso) {
+            if (proceso.indice < proceso.codigo.length) {
+                return proceso.codigo[proceso.indice];
+            } else {
+                return null; // Si no hay más líneas que ejecutar
+            }
+        }
+
+        // Función para inicializar los procesos según el número de procesos solicitados
+        function inicializarProcesos(numProcesos) {
+            const todosLosProcesos = [proceso1, proceso2, proceso3];
+            return todosLosProcesos.slice(0, numProcesos); // Selecciona los primeros 'numProcesos'
+        }
+
+        // Función para comenzar la simulación
+        function simular(procesos) {
+            let terminado = false;
+            const output = document.getElementById('output');
+            output.textContent = ''; // Limpiar el contenido previo
+
+            while (!terminado) {
+                terminado = true;
+
+                for (let i = 0; i < procesos.length; i++) {
+                    const proceso = procesos[i];
+                    const linea = elegirLinea(proceso);
+
+                    if (linea) {
+                        output.textContent += `Proceso ${proceso.num}\nLínea de código: ${linea}\n\n`;
+                        proceso.indice++;
+                        terminado = false; // Si algún proceso sigue teniendo líneas, la simulación no ha terminado
+                    } else {
+                        output.textContent += `Proceso ${proceso.num}\nTerminado\n\n`;
+                    }
+                }
+            }
+        }
+
+        // Función principal para obtener la entrada del usuario
+        function main() {
+            const numProcesos = parseInt(prompt('Ingrese el número de procesos a simular (1-3):'));
+
+            if (isNaN(numProcesos) || numProcesos <= 0 || numProcesos > 3) {
+                alert('Debe proporcionar un número válido de procesos entre 1 y 3');
+                return;
+            }
+
+            const procesos = inicializarProcesos(numProcesos);
+            simular(procesos);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
