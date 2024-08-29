@@ -168,7 +168,10 @@
                         proceso.indice++;
                         terminado = false; // Si algún proceso sigue teniendo líneas, la simulación no ha terminado
                     } else {
-                        output.textContent += `Proceso ${proceso.num}\nTerminado\n\n`;
+                        if (proceso.indice==proceso.codigo.length){
+                            output.textContent += `Proceso ${proceso.num}\nTerminado\n\n`;
+                            proceso.indice++;
+                        }
                     }
                 }
             }
